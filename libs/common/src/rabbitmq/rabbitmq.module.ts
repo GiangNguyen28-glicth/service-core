@@ -1,11 +1,11 @@
-import { DynamicModule, Global, Logger, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ClientsModule } from '@nestjs/microservices';
+import { Client } from '../common/const';
 import {
-  ClientOptions,
-  ClientProxyFactory,
-  ClientsModule,
-  Transport,
-} from '@nestjs/microservices';
+  IClientDynamicModule,
+  IServiceConfig,
+} from '../common/interfaces/common';
 import { register } from '../common/useFactory';
 import { RabbitService } from './rabbitmq.service';
 interface RmqModuleOptions {
@@ -17,10 +17,16 @@ interface RmqModuleOptions {
   exports: [RabbitService],
 })
 export class RabbitModule {
-  static register({ name }: RmqModuleOptions): DynamicModule {
-    const clientModule: IClientDynamicModule<RabbitModule> = {
-
+  static async register({ name }: RmqModuleOptions): Promise<any> {
+    const clientModule: IClientDynamicModule = {
+      module: RabbitModule,
+      exports: [ClientsModule],
+      inject: [ConfigService],
     };
-    return register()
+    const serviceConfig: IServiceConfig = {
+      service: name,
+      client: Client.RMQ,
+    };
+    return await register(clientModule, serviceConfig);
   }
 }

@@ -1,8 +1,10 @@
 import { DynamicModule, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
     ClientOptions,
     ClientProxyFactory,
     ClientsModule,
+    Transport,
 } from '@nestjs/microservices';
 import moment from 'moment-timezone';
 import { IClientDynamicModule, IServiceConfig } from './interfaces/common';
@@ -29,7 +31,6 @@ export async function connectToService(
 export async function register(
     clientModule: IClientDynamicModule,
     serviceConfig: IServiceConfig,
-    options: ClientOptions,
 ): Promise<DynamicModule> {
     const logger = new Logger(clientModule.module.name);
     return {
@@ -37,8 +38,15 @@ export async function register(
         imports: [
             ClientsModule.registerAsync([
                 {
-                    serviceConfig.name,
-                    useFactory: async (): Promise<any> => {
+                    name: serviceConfig.service,
+                    useFactory: async (configService: ConfigService): Promise<any> => {
+                        const options: ClientOptions = {
+                            transport: Transport.RMQ,
+                            options: {
+                                urls: ['amqp://guest:guest@localhost:5672'],
+                                queue: configService.get<string>(`RABBIT_MQ_${serviceConfig.service}_QUEUE`),
+                            },
+                        };
                         const client = await connectToService(serviceConfig, logger, options);
                         return client;
                     },

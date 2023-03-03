@@ -1,7 +1,7 @@
 export interface IClientDynamicModule {
     module: any;
-    inject: [];
-    exports: [];
+    inject?: any[];
+    exports: any[];
 }
 export interface IServiceConfig {
     service: string;
