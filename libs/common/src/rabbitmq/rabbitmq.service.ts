@@ -1,42 +1,28 @@
 import { Injectable, LoggerService, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
-import { Connection } from 'amqplib';
 @Injectable()
 export class RabbitService implements OnModuleDestroy {
-  constructor(
-    private configService: ConfigService,
-    private logger: LoggerService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
-  getRmqOptions(queue: string): RmqOptions {
-    const USER = this.configService.get('RABBITMQ_USER');
-    const PASSWORD = this.configService.get('RABBITMQ_PASS');
-    const HOST = this.configService.get('RABBITMQ_HOST');
-
+  getOptions(queue: string, noAck = false): RmqOptions {
     return {
       transport: Transport.RMQ,
       options: {
-        urls: [`amqp://${USER}:${PASSWORD}@${HOST}`],
-        noAck: false,
-        queue,
-        queueOptions: {
-          durable: true,
-        },
+        urls: [this.configService.get<string>('RABBIT_MQ_URI')],
+        queue: this.configService.get<string>(`RABBIT_MQ_${queue}_QUEUE`),
+        noAck,
+        persistent: true,
       },
     };
   }
 
-  acknowledgeMessage(context: RmqContext) {
+  ack(context: RmqContext) {
     const channel = context.getChannelRef();
-    const message = context.getMessage();
-    channel.ack(message);
+    const originalMessage = context.getMessage();
+    channel.ack(originalMessage);
   }
-  public rabbitCon: Promise<Connection>;
-
   onModuleDestroy() {
-    if (this.rabbitCon) {
-      (async () => (await this.rabbitCon)?.close())();
-    }
+    throw new Error('Method not implemented.');
   }
 }

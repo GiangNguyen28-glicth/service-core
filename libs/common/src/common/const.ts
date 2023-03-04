@@ -1,4 +1,4 @@
 export enum Client {
-  RMQ = 'rabbitmq',
-  REDIS = 'redis',
+  RMQ = 'RMQ',
+  REDIS = 'REDIS',
 }
