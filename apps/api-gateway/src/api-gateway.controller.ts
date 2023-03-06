@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { SignUpDTO } from 'apps/user/src/dto/user.dto';
+import { SignUpDTO } from 'apps/user';
 import { ApiGateWayService } from './api-gateway.service';
 
 @Controller('api-gateway')

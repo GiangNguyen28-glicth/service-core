@@ -13,12 +13,12 @@ import { UserService } from './user.service';
       isGlobal: true,
       envFilePath: './apps/user/.env',
     }),
-    MongoDBModule,
+    // MongoDBModule,
     RabbitModule.register({ name: Service.USER }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    // MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
 })
-export class UserModule {}
+export class UserModule { }

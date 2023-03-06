@@ -45,7 +45,6 @@ export function register(
   clientModule: IClientDynamicModule,
   serviceConfig: IServiceConfig,
 ): DynamicModule {
-  const logger = new Logger(clientModule.module.name);
   return {
     module: clientModule.module,
     imports: [
@@ -76,25 +75,7 @@ export function register(
               serviceConfig.client,
               authenticationClient,
             ) as ClientOptions;
-            console.log(options);
-            const client = await ClientProxyFactory.create(options);
-            const connectToClient = async () => {
-              try {
-                await client.connect();
-                logger.log(`Connected to RMQ server`);
-              } catch (error) {
-                logger.error(
-                  `Connect to ${serviceConfig.client} failed at ${moment(
-                    new Date().toISOString(),
-                  ).tz('Asia/Ho_Chi_Minh')}. Try reconnect to ${
-                    serviceConfig.client
-                  }`,
-                );
-                setTimeout(connectToClient.bind(this), 3000);
-              }
-            };
-            await connectToClient();
-            return client;
+            return options;
           },
           inject: clientModule.inject,
         },

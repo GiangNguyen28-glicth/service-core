@@ -25,6 +25,7 @@ export class UserController {
 
   @MessagePattern({ cmd: 'ping' })
   ping(_: any) {
+    console.log(_);
     return of('pong').pipe(delay(1000));
   }
 }
