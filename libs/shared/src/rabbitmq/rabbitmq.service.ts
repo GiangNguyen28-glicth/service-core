@@ -1,12 +1,10 @@
-import { Injectable, LoggerService, OnModuleDestroy } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
-import { Client } from '../common/const';
-import { IAuthenticationClient } from '../common/interfaces/common';
 import { getAuthClient } from '../utils/utils';
 @Injectable()
 export class RabbitService {
-  constructor(private readonly configService: ConfigService) { }
+  constructor(private readonly configService: ConfigService) {}
 
   getOptions(queue: string, noAck = false): RmqOptions {
     const { username, password, host, port } = getAuthClient(

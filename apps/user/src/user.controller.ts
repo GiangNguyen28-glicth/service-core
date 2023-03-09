@@ -6,8 +6,11 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
+import { JwtPayload } from 'apps/auth/src';
 import { delay, of } from 'rxjs';
+import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 import { SignUpDTO } from './dto/user.dto';
+import { User } from './schema/user.schema';
 import { UserService } from './user.service';
 
 @Controller()
@@ -19,8 +22,23 @@ export class UserController {
     @Payload() signUpDto: SignUpDTO,
     @Ctx() context: RmqContext,
   ): Promise<boolean> {
-    console.log('SignUpDto:', signUpDto);
     return this.userService.signUp(signUpDto, context);
+  }
+
+  @MessagePattern('get_user_by_id')
+  async findOne(@Payload() _id: string, @Ctx() ctx: RmqContext): Promise<User> {
+    const user = this.userService.findOne(_id, ctx);
+    return user;
+  }
+
+  @MessagePattern('login')
+  async signIn(
+    @Payload() signUp: SignUpDTO,
+    @Ctx() ctx: RmqContext,
+  ): Promise<User> {
+    const user = await this.userService.signIn(signUp, ctx);
+    console.log(':D', user);
+    return user;
   }
 
   @MessagePattern({ cmd: 'ping' })

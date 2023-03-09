@@ -7,4 +7,6 @@ export * from './rabbitmq/rabbitmq.service';
 export * from './redis/redis.service';
 
 // guards
-export * from './guards/auth.guard';
+
+//utils
+export * from './utils/utils';
