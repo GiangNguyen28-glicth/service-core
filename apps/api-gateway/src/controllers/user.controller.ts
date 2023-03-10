@@ -12,12 +12,7 @@ export class UserController {
   async getUserById(@Param('_id') _id: string): Promise<User> {
     try {
       const user = await lastValueFrom(
-        this.clientUser.send('get_user_by_id', _id).pipe(
-          catchError(e => {
-            console.log(e);
-            throw new HttpException(e.message, e.status);
-          }),
-        ),
+        this.clientUser.send('get_user_by_id', _id)
       );
       return user;
     } catch (error) {
