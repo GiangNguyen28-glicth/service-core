@@ -1,18 +1,27 @@
 import { Service } from '@app/shared/common/const';
-import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { Controller, Get, HttpException, Inject, Param } from '@nestjs/common';
 import { ClientRMQ } from '@nestjs/microservices';
-import { User } from 'apps/user/src';
-import { lastValueFrom } from 'rxjs';
+import { User } from 'apps/user';
+import { catchError, lastValueFrom } from 'rxjs';
 
 @Controller('users')
 export class UserController {
-  constructor(@Inject(Service.USER) private clientUser: ClientRMQ) {}
+  constructor(@Inject(Service.USER) private clientUser: ClientRMQ) { }
 
   @Get(':_id')
   async getUserById(@Param('_id') _id: string): Promise<User> {
-    const user = await lastValueFrom(
-      this.clientUser.send('get_user_by_id', _id),
-    );
-    return user;
+    try {
+      const user = await lastValueFrom(
+        this.clientUser.send('get_user_by_id', _id).pipe(
+          catchError(e => {
+            console.log(e);
+            throw new HttpException(e.message, e.status);
+          }),
+        ),
+      );
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 }

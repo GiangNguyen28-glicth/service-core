@@ -4,7 +4,7 @@ import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ClientRMQ } from '@nestjs/microservices';
 import { JwtPayload } from 'apps/auth/src/entities/auth.entities';
 import { SignUpDTO } from 'apps/user';
-import { User } from 'apps/user/src';
+import { User } from 'apps/user';
 import { lastValueFrom } from 'rxjs';
 import { AtGuard } from '../common/guards/at.guard';
 

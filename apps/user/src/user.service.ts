@@ -1,9 +1,9 @@
 import { RabbitService } from '@app/shared';
 import { Service } from '@app/shared/common/const';
 import { AbstractRepository } from '@app/shared/mongodb/abstract.repository';
-import { Logger, NotFoundException, OnModuleDestroy } from '@nestjs/common';
+import { HttpStatus, Logger, NotFoundException, OnModuleDestroy } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientRMQ, RmqContext } from '@nestjs/microservices';
+import { ClientRMQ, RmqContext, RpcException } from '@nestjs/microservices';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { lastValueFrom } from 'rxjs';
@@ -28,7 +28,7 @@ export class UserService implements OnModuleDestroy {
     const user = await this.userModel.findOne({ _id });
     this.rmqService.ack(context);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new RpcException(new NotFoundException('User not found'));
     }
     return user;
   }

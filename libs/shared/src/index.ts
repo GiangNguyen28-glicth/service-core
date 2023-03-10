@@ -10,3 +10,6 @@ export * from './redis/redis.service';
 
 //utils
 export * from './utils/utils';
+
+//common
+export * from './common/exceptions/exceptions';

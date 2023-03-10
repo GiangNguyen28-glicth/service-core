@@ -6,7 +6,7 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
-import { User } from 'apps/user/src';
+import { User } from 'apps/user';
 import { AuthService } from './auth.service';
 import { JwtPayload } from './entities/auth.entities';
 

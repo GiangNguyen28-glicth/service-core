@@ -8,7 +8,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
   const rmqService = app.get<RabbitService>(RabbitService);
   const options: ClientOptions = rmqService.getOptions(Service.AUTH);
-  console.log(options);
   app.connectMicroservice(options);
   await app.startAllMicroservices();
   await app.listen(3003);

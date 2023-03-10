@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import {
   Ctx,
   EventPattern,
@@ -6,9 +6,7 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
-import { JwtPayload } from 'apps/auth/src';
 import { delay, of } from 'rxjs';
-import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 import { SignUpDTO } from './dto/user.dto';
 import { User } from './schema/user.schema';
 import { UserService } from './user.service';
@@ -37,7 +35,6 @@ export class UserController {
     @Ctx() ctx: RmqContext,
   ): Promise<User> {
     const user = await this.userService.signIn(signUp, ctx);
-    console.log(':D', user);
     return user;
   }
 
