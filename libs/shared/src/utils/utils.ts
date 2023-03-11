@@ -3,13 +3,14 @@ import { Client } from '../common/const';
 import { IAuthenticationClient } from '../common/interfaces/common';
 
 export function getAuthClient(
-    configService: ConfigService,
+  configService: ConfigService,
+  clientType: Client,
 ): IAuthenticationClient {
-    const authenticationClient: IAuthenticationClient = {
-        port: configService.get<number>(`PORT_CLIENT_${Client.RMQ}`),
-        host: configService.get<string>(`HOST_CLIENT_${Client.RMQ}`),
-        username: configService.get<string>(`USERNAME_CLIENT_${Client.RMQ}`),
-        password: configService.get<string>(`PASSWORD_CLIENT_${Client.RMQ}`),
-    };
-    return authenticationClient;
+  const authenticationClient: IAuthenticationClient = {
+    port: configService.get<number>(`PORT_CLIENT_${clientType}`),
+    host: configService.get<string>(`HOST_CLIENT_${clientType}`),
+    username: configService.get<string>(`USERNAME_CLIENT_${clientType}`),
+    password: configService.get<string>(`PASSWORD_CLIENT_${clientType}`),
+  };
+  return authenticationClient;
 }

@@ -1,4 +1,4 @@
-import { MongoDBModule, RabbitModule } from '@app/shared';
+import { RabbitModule, RedisModule } from '@app/shared';
 import { Service } from '@app/shared/common/const';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
       envFilePath: './apps/auth/.env',
     }),
     RabbitModule.register({ name: Service.AUTH }),
+    RedisModule,
     // MongoDBModule,
   ],
   controllers: [AuthController],

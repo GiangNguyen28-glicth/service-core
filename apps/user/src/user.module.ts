@@ -1,4 +1,4 @@
-import { MongoDBModule, RabbitModule } from '@app/shared';
+import { MongoDBModule, RabbitModule, RedisModule } from '@app/shared';
 import { Service } from '@app/shared/common/const';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -16,6 +16,7 @@ import { UserService } from './user.service';
     MongoDBModule,
     RabbitModule.register({ name: Service.USER }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    RedisModule,
   ],
   controllers: [UserController],
   providers: [UserService],

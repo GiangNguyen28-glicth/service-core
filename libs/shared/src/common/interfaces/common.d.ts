@@ -1,3 +1,5 @@
+import { Client } from '../const';
+
 interface IEntity {
   _id?: string;
   isDeleted?: boolean;
@@ -11,7 +13,7 @@ export interface IClientDynamicModule {
 }
 export interface IServiceConfig {
   service: string;
-  client: string;
+  client: Client;
 }
 
 export interface IAuthenticationClient {

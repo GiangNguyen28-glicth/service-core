@@ -7,6 +7,7 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import * as moment from 'moment-timezone';
+import { getAuthClient } from '../utils/utils';
 import { Client } from './const';
 import {
   IAuthenticationClient,
@@ -52,20 +53,10 @@ export function register(
         {
           name: serviceConfig.service,
           useFactory: async (configService: ConfigService): Promise<any> => {
-            const authenticationClient: IAuthenticationClient = {
-              port: configService.get<number>(
-                `PORT_CLIENT_${serviceConfig.client}`,
-              ),
-              host: configService.get<string>(
-                `HOST_CLIENT_${serviceConfig.client}`,
-              ),
-              username: configService.get<string>(
-                `USERNAME_CLIENT_${serviceConfig.client}`,
-              ),
-              password: configService.get<string>(
-                `PASSWORD_CLIENT_${serviceConfig.client}`,
-              ),
-            };
+            const authenticationClient: IAuthenticationClient = getAuthClient(
+              configService,
+              serviceConfig.client,
+            );
             if (serviceConfig.client === Client.RMQ) {
               authenticationClient.queue = configService.get<string>(
                 `RABBIT_MQ_${serviceConfig.service}_QUEUE`,
