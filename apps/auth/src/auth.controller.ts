@@ -1,4 +1,4 @@
-import { RabbitService } from '@app/shared';
+import { RabbitService } from 'libs/shared';
 import { Controller } from '@nestjs/common';
 import {
   Ctx,

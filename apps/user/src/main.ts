@@ -1,7 +1,7 @@
-import { RabbitService } from '@app/shared';
+import { RabbitClient, RabbitService } from 'libs/shared';
 import { Service } from '@app/shared/common/const';
 import { NestFactory } from '@nestjs/core';
-import { ClientOptions } from '@nestjs/microservices';
+import { ClientOptions, MicroserviceOptions } from '@nestjs/microservices';
 import { UserModule } from './user.module';
 
 async function bootstrap() {
@@ -9,7 +9,16 @@ async function bootstrap() {
   const rmqService = app.get<RabbitService>(RabbitService);
   const options: ClientOptions = rmqService.getOptions(Service.USER);
   console.log(options);
-  app.connectMicroservice(options);
+  app.connectMicroservice<MicroserviceOptions>(
+    {
+      strategy: new RabbitClient({
+        urls: ['amqp://guest:guest@localhost:5672'],
+        queue: 'user',
+        noAck: false,
+      }),
+    },
+    { inheritAppConfig: true },
+  );
   await app.startAllMicroservices();
   await app.listen(3001);
 }

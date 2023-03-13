@@ -1,4 +1,4 @@
-import { RabbitModule, RedisModule } from '@app/shared';
+import { RabbitModule, RedisModule } from 'libs/shared';
 import { Service } from '@app/shared/common/const';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
