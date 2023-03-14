@@ -16,7 +16,6 @@ import { Client } from '../common/const';
           configService,
           Client.REDIS,
         );
-        console.log(authentication);
         return {
           store: redisStore,
           url: `redis://${authentication.host}:${authentication.port}`,

@@ -1,5 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpAdapterHost, HttpStatus } from "@nestjs/common";
-import { RpcException } from "@nestjs/microservices";
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpAdapterHost,
+  HttpStatus,
+} from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 
 export interface IRpcException {
   message: string;
@@ -22,21 +28,21 @@ export class FitRpcException extends RpcException implements IRpcException {
 export class AllGlobalExceptionsFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-    catch(exception: IRpcException, host: ArgumentsHost): void {
-        const { httpAdapter } = this.httpAdapterHost;
-        const ctx = host.switchToHttp();
+  catch(exception: IRpcException, host: ArgumentsHost): void {
+    const { httpAdapter } = this.httpAdapterHost;
+    const ctx = host.switchToHttp();
 
-        const httpStatus = exception.status
-            ? exception.status
-            : HttpStatus.INTERNAL_SERVER_ERROR;
+    const httpStatus = exception.status
+      ? exception.status
+      : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        const responseBody = {
-            statusCode: httpStatus,
-            timestamp: new Date().toISOString(),
-            path: httpAdapter.getRequestUrl(ctx.getRequest()),
-            message: exception.message,
-        };
+    const responseBody = {
+      statusCode: httpStatus,
+      timestamp: new Date().toISOString(),
+      path: httpAdapter.getRequestUrl(ctx.getRequest()),
+      message: exception.message,
+    };
 
-        httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
-    }
+    httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+  }
 }

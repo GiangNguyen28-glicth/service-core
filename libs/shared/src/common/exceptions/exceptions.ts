@@ -5,7 +5,6 @@ import { Observable, throwError } from 'rxjs';
 @Catch(RpcException)
 export class ExceptionFilter implements RpcExceptionFilter<RpcException> {
   catch(exception: RpcException, host: ArgumentsHost): Observable<any> {
-    // console.log('Exception:', exception);
     return throwError(() => exception.getError());
   }
 }

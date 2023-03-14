@@ -33,7 +33,6 @@ export class ApiGateWayService {
       );
       await result.subscribe();
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -51,7 +50,6 @@ export class ApiGateWayService {
       );
       await result.subscribe();
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }

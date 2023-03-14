@@ -1,4 +1,4 @@
-import { RabbitService } from '@app/shared';
+import { RabbitService } from 'libs/shared';
 import { Service } from '@app/shared/common/const';
 import { NestFactory } from '@nestjs/core';
 import { ClientOptions } from '@nestjs/microservices';
