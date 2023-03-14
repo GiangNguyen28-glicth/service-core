@@ -6,6 +6,7 @@ import {
   Logger,
   NotFoundException,
   OnModuleDestroy,
+  OnModuleInit,
 } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientRMQ, RmqContext, RpcException } from '@nestjs/microservices';
@@ -14,17 +15,21 @@ import { Connection, Model } from 'mongoose';
 import { lastValueFrom } from 'rxjs';
 import { SignUpDTO } from './dto/user.dto';
 import { User } from './schema/user.schema';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class UserService implements OnModuleDestroy {
+export class UserService implements OnModuleDestroy, OnModuleInit {
   protected logger: Logger;
-  private rmqClient;
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     @Inject(Service.USER) private clientUser: ClientRMQ,
     private rmqService: RabbitService, // @InjectConnection() private readonly connection: Connection,
   ) {}
+
+  async onModuleInit() {
+    this.rmqService.initRmq();
+    await this.rmqService.clientRb.connectRmq();
+  }
+
   async onModuleDestroy() {
     if (this.clientUser) {
       await this.clientUser.close();
@@ -34,7 +39,12 @@ export class UserService implements OnModuleDestroy {
   async findOne(_id: string, context: RmqContext): Promise<User> {
     const user = await this.userModel.findOne({ _id });
     this.rmqService.ack(context);
-    await this.rmqService.connect();
+    await this.rmqService.clientRb.bindQueue({
+      queue: 'exchange-1',
+      exchange: 'exchange',
+      routingKey: 'key-1',
+    });
+    await this.rmqService;
     if (!user) {
       throw new RpcException(new NotFoundException('User not found'));
     }
