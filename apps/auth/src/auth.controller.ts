@@ -25,7 +25,6 @@ export class AuthController {
     const jwtPayload = await this.authService.generateTokens(
       user._id.toString(),
     );
-    console.log(jwtPayload);
     this.rmqService.ack(ctx);
     return jwtPayload;
   }

@@ -1,11 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
-import { getAuthClient } from 'libs/shared';
+import { getAuthClient, RabbitClient } from 'libs/shared';
 import { Client } from '../common/const';
 @Injectable()
 export class RabbitService {
+  private clientRb: RabbitClient;
   constructor(private readonly configService: ConfigService) {}
+
+  async connect() {
+    const { username, password, host, port } = getAuthClient(
+      this.configService,
+      Client.RMQ,
+    );
+    const url = `amqp://${username}:${password}@${host}:${port}`;
+    this.clientRb = new RabbitClient({
+      urls: [url],
+      noAck: false,
+    });
+  }
 
   getOptions(queue: string, noAck = false): RmqOptions {
     const { username, password, host, port } = getAuthClient(

@@ -8,17 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(UserModule);
   const rmqService = app.get<RabbitService>(RabbitService);
   const options: ClientOptions = rmqService.getOptions(Service.USER);
-  console.log(options);
-  app.connectMicroservice<MicroserviceOptions>(
-    {
-      strategy: new RabbitClient({
-        urls: ['amqp://guest:guest@localhost:5672'],
-        queue: 'user',
-        noAck: false,
-      }),
-    },
-    { inheritAppConfig: true },
-  );
+  app.connectMicroservice(options);
   await app.startAllMicroservices();
   await app.listen(3001);
 }
