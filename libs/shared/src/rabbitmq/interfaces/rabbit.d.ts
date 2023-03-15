@@ -16,5 +16,5 @@ export interface IExchangeRb {
 
 export interface IQueue {
   queue: string;
-  options: Options.AssertQueue;
+  options?: Options.AssertQueue;
 }

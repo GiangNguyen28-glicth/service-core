@@ -5,10 +5,10 @@ import { getAuthClient, RabbitClient } from 'libs/shared';
 import { Client } from '../common/const';
 @Injectable()
 export class RabbitService {
-  private clientRb: RabbitClient;
+  public clientRb: RabbitClient;
   constructor(private readonly configService: ConfigService) {}
 
-  async connect() {
+  initRmq() {
     const { username, password, host, port } = getAuthClient(
       this.configService,
       Client.RMQ,

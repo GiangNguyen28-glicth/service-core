@@ -890,6 +890,13 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.3.tgz#472eaab5f15c1ffdd7f8628bd4c4f753995ec79e"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
+"@types/amqp@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@types/amqp/-/amqp-0.2.5.tgz#6b4a935a7d4f627bbf3806460f244ea977dc1462"
+  integrity sha512-kopst/gHPhQQodMpcAMxhsrMRX4Oy5simFl6+7Y3macx1/5xzHAvPECLyFjSB5mkATU56fL2HQMBKK6CQ5oAwg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/amqplib@^0.10.1":
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/@types/amqplib/-/amqplib-0.10.1.tgz#d43d14027b969e82ceec71cc17bd28e5f5abbc7b"
