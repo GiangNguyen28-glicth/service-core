@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
-import { Client } from '../common/const';
-import { IAuthenticationClient } from '../common/interfaces/common';
+import { Client } from '../common/const/const';
+import { IAuthenticationClient } from '../common/interfaces/common.interfaces';
 
 export function getAuthClient(
   configService: ConfigService,

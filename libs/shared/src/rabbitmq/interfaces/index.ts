@@ -1,2 +1,2 @@
-export * from './rabbit';
+export * from './rabbit.interfaces';
 export * from './rabbit.assert';

@@ -1,5 +1,5 @@
 import { RabbitModule, RedisModule } from 'libs/shared';
-import { Service } from '@app/shared/common/const';
+import { Service } from '@app/shared/common/const/const';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';

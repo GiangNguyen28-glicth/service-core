@@ -1,4 +1,4 @@
-import { Service } from '@app/shared/common/const';
+import { Service } from '@app/shared/common/const/const';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy, ClientRMQ } from '@nestjs/microservices';
 import { SignUpDTO } from 'apps/user/src/dto/user.dto';

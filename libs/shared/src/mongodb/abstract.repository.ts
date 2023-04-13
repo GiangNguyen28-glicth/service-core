@@ -1,6 +1,6 @@
 import { Logger, NotFoundException } from '@nestjs/common';
+import { BaseInterfaceSchema } from 'libs/shared';
 import { Connection, FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
-import { BaseInterfaceSchema } from '../common/base.repo';
 
 export abstract class AbstractRepository<TDocument>
   implements BaseInterfaceSchema<TDocument>

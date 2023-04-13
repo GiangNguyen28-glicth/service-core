@@ -1,8 +1,7 @@
-import { RabbitClient, RabbitService } from 'libs/shared';
-import { Service } from '@app/shared/common/const';
 import { NestFactory } from '@nestjs/core';
-import { ClientOptions, MicroserviceOptions } from '@nestjs/microservices';
+import { ClientOptions } from '@nestjs/microservices';
 import { UserModule } from './user.module';
+import { RabbitService, Service } from 'libs/shared';
 
 async function bootstrap() {
   const app = await NestFactory.create(UserModule);

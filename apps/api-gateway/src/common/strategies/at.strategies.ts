@@ -3,9 +3,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { IJwtPayload } from '../../../../auth/src/interfaces/auth';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'apps/user/src/schema/user.schema';
+import { User } from 'apps/user/src/entities/user.entities';
 import { Inject } from '@nestjs/common/decorators';
-import { Service } from '@app/shared/common/const';
+import { Service } from '@app/shared/common/const/const';
 import { ClientRMQ } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 

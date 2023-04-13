@@ -1,6 +1,6 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { ApiGateWayModule } from './api-gateway.module';
-import { AllGlobalExceptionsFilter } from './common/exceptions/exceptions';
+import { AllGlobalExceptionsFilter } from './common';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiGateWayModule);

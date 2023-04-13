@@ -1,4 +1,4 @@
-import { IEntity } from '@app/shared/common/interfaces/common';
+import { IEntity } from 'libs/shared';
 
 export interface IUser extends IEntity {
   username: string;

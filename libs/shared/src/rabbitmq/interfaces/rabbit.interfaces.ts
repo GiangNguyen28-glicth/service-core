@@ -1,3 +1,4 @@
+import { Options } from 'amqp-connection-manager';
 import { ExchangeRb } from './rabbit.assert';
 
 export interface IQueueBinding {

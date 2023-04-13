@@ -1,4 +1,4 @@
-import { Service } from '@app/shared/common/const';
+import { Service } from '@app/shared/common/const/const';
 import { CurrentUser } from '@app/shared/common/decorators/current-user.decorator';
 import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ClientRMQ } from '@nestjs/microservices';

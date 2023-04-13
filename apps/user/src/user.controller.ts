@@ -8,7 +8,7 @@ import {
 } from '@nestjs/microservices';
 import { delay, of } from 'rxjs';
 import { SignUpDTO } from './dto/user.dto';
-import { User } from './schema/user.schema';
+import { User } from './entities/user.entities';
 import { UserService } from './user.service';
 
 @Controller()
@@ -24,7 +24,7 @@ export class UserController {
   }
 
   @MessagePattern('get_user_by_id')
-  async findOne(@Payload() _id: string, @Ctx() ctx: RmqContext): Promise<User> {
+  async findOne(@Payload() _id: number, @Ctx() ctx: RmqContext): Promise<User> {
     const user = this.userService.findOne(_id, ctx);
     return user;
   }

@@ -1,26 +1,23 @@
-import { getAuthClient, RabbitClient, RabbitService } from 'libs/shared';
-import { Client, Service } from '@app/shared/common/const';
-import { AbstractRepository } from '@app/shared/mongodb/abstract.repository';
 import {
-  HttpStatus,
+  Inject,
+  Injectable,
   Logger,
   NotFoundException,
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import { Inject, Injectable } from '@nestjs/common';
 import { ClientRMQ, RmqContext, RpcException } from '@nestjs/microservices';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Model } from 'mongoose';
-import { lastValueFrom } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RabbitService, Service } from 'libs/shared';
 import { SignUpDTO } from './dto/user.dto';
-import { User } from './schema/user.schema';
+import { User } from './entities/user.entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService implements OnModuleDestroy, OnModuleInit {
   protected logger: Logger;
   constructor(
-    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
     @Inject(Service.USER) private clientUser: ClientRMQ,
     private rmqService: RabbitService, // @InjectConnection() private readonly connection: Connection,
   ) {}
@@ -36,15 +33,14 @@ export class UserService implements OnModuleDestroy, OnModuleInit {
     }
   }
 
-  async findOne(_id: string, context: RmqContext): Promise<User> {
-    const user = await this.userModel.findOne({ _id });
+  async findOne(id: number, context: RmqContext): Promise<User> {
+    const user = await this.userRepository.findOneBy({ id });
     this.rmqService.ack(context);
-    await this.rmqService.clientRb.bindQueue({
-      queue: 'exchange-1',
-      exchange: 'exchange',
-      routingKey: 'key-1',
-    });
-    await this.rmqService;
+    // await this.rmqService.clientRb.bindQueue({
+    //   queue: 'exchange-1',
+    //   exchange: 'exchange',
+    //   routingKey: 'key-1',
+    // });
     if (!user) {
       throw new RpcException(new NotFoundException('User not found'));
     }
@@ -52,7 +48,9 @@ export class UserService implements OnModuleDestroy, OnModuleInit {
   }
 
   async signIn(signUp: SignUpDTO, context: RmqContext): Promise<User> {
-    const user = await this.userModel.findOne(signUp);
+    const user = await this.userRepository.findOne({
+      where: { username: signUp.username },
+    });
     this.rmqService.ack(context);
     if (!user) {
       throw new NotFoundException('User not found');
@@ -61,7 +59,7 @@ export class UserService implements OnModuleDestroy, OnModuleInit {
   }
 
   async signUp(signUpDto: SignUpDTO, context: RmqContext): Promise<boolean> {
-    const user = await this.userModel.create(signUpDto);
+    const user = await this.userRepository.create(signUpDto);
     this.rmqService.ack(context);
     return user ? true : false;
   }

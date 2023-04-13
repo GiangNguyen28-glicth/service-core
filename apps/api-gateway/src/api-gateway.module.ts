@@ -1,4 +1,4 @@
-import { Service } from '@app/shared/common/const';
+import { Service } from '@app/shared/common/const/const';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';

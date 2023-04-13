@@ -1,4 +1,3 @@
-import { Service } from '@app/shared/common/const';
 import { BadRequestException, Inject, OnModuleDestroy } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -6,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ClientRMQ } from '@nestjs/microservices';
 import { JwtPayload } from './entities/auth.entities';
 import { IJwtPayload } from './interfaces/auth';
+import { Service } from 'libs/shared';
 
 @Injectable()
 export class AuthService implements OnModuleDestroy {

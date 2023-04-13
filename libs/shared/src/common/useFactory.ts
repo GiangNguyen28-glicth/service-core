@@ -1,19 +1,13 @@
-import { DynamicModule, Logger } from '@nestjs/common';
+import { DynamicModule } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {
-  ClientOptions,
-  ClientProxyFactory,
-  ClientsModule,
-  Transport,
-} from '@nestjs/microservices';
-import * as moment from 'moment-timezone';
+import { ClientOptions, ClientsModule, Transport } from '@nestjs/microservices';
 import { getAuthClient } from '../utils/utils';
-import { Client } from './const';
+import { Client } from './const/const';
 import {
   IAuthenticationClient,
   IClientDynamicModule,
   IServiceConfig,
-} from './interfaces/common';
+} from './interfaces/common.interfaces';
 
 function mappingClient(client: string, authentication: IAuthenticationClient) {
   let options = {};

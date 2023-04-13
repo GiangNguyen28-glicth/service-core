@@ -1,4 +1,4 @@
-import { Service } from '@app/shared/common/const';
+import { Service } from '@app/shared/common/const/const';
 import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ClientRMQ } from '@nestjs/microservices';
 import { User } from 'apps/user';

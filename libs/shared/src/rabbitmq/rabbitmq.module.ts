@@ -6,11 +6,11 @@ import {
   ClientsModule,
   Transport,
 } from '@nestjs/microservices';
-import { Client } from '../common/const';
+import { Client } from '../common/const/const';
 import {
   IClientDynamicModule,
   IServiceConfig,
-} from '../common/interfaces/common';
+} from '../common/interfaces/common.interfaces';
 import { register } from '../common/useFactory';
 import { RabbitService } from './rabbitmq.service';
 interface RmqModuleOptions {

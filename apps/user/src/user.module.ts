@@ -1,21 +1,24 @@
-import { MongoDBModule, RabbitModule, RedisModule } from 'libs/shared';
-import { Service } from '@app/shared/common/const';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './schema/user.schema';
-import { UserController } from './user.controller';
 import { UserService } from './user.service';
-
+import {
+  RabbitModule,
+  RedisModule,
+  Service,
+  TypeOrmSQLModule,
+} from 'libs/shared';
+import { UserController } from './user.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entities';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: './apps/user/.env',
     }),
-    MongoDBModule,
+    TypeOrmModule.forFeature([User]),
+    TypeOrmSQLModule,
     RabbitModule.register({ name: Service.USER }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     RedisModule,
   ],
   controllers: [UserController],

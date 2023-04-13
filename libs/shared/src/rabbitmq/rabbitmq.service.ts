@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
 import { getAuthClient, RabbitClient } from 'libs/shared';
-import { Client } from '../common/const';
+import { Client } from '../common/const/const';
 @Injectable()
 export class RabbitService {
   public clientRb: RabbitClient;

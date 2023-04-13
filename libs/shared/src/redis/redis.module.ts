@@ -3,9 +3,9 @@ import { RedisService } from './redis.service';
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { ConfigService } from '@nestjs/config';
-import { IAuthenticationClient } from '../common/interfaces/common';
+import { IAuthenticationClient } from '../common/interfaces/common.interfaces';
 import { getAuthClient } from '../utils/utils';
-import { Client } from '../common/const';
+import { Client } from '../common/const/const';
 
 @Global()
 @Module({
