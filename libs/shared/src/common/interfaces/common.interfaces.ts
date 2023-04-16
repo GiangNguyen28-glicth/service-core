@@ -2,9 +2,9 @@ import { Client } from '../const/const';
 import { FilterQuery, UpdateQuery } from 'mongoose';
 export interface IEntity {
   _id?: string;
-  isDeleted?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+  is_deleted?: boolean;
+  created_at?: Date;
+  updated_at?: Date;
 }
 export interface IClientDynamicModule {
   module: any;

@@ -7,6 +7,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   const adapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllGlobalExceptionsFilter(adapterHost));
-  await app.listen(3000);
+  await app.listen(2821);
 }
 bootstrap();

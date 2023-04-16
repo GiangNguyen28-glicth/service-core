@@ -1,3 +1,10 @@
+import * as mongoose from 'mongoose';
+
+export enum Language {
+  VN = 'vi',
+  EN = 'en',
+}
+
 export enum Client {
   RMQ = 'RMQ',
   REDIS = 'REDIS',
@@ -7,4 +14,11 @@ export enum Client {
 export enum Service {
   USER = 'USER',
   AUTH = 'AUTH',
+  SAGA = 'SAGA',
+  PRODUCT = 'PRODUCT',
+  ORDER = 'ORDER',
+  PAYMENT = 'PAYMENT',
+  CART = 'CART',
 }
+
+export const MongoID = mongoose.Schema.Types.ObjectId;

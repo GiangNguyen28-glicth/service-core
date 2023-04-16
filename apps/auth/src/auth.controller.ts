@@ -22,9 +22,7 @@ export class AuthController {
     @Payload() user: User,
     @Ctx() ctx: RmqContext,
   ): Promise<JwtPayload> {
-    const jwtPayload = await this.authService.generateTokens(
-      user.id.toString(),
-    );
+    const jwtPayload = await this.authService.generateTokens(user.id);
     this.rmqService.ack(ctx);
     return jwtPayload;
   }

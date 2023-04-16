@@ -9,6 +9,7 @@ async function bootstrap() {
   const options: ClientOptions = rmqService.getOptions(Service.USER);
   app.connectMicroservice(options);
   await app.startAllMicroservices();
-  await app.listen(3001);
+  console.log(`Start service ${Service.USER}`);
+  app.listen(1000);
 }
 bootstrap();

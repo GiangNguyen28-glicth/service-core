@@ -59,8 +59,13 @@ export class UserService implements OnModuleDestroy, OnModuleInit {
   }
 
   async signUp(signUpDto: SignUpDTO, context: RmqContext): Promise<boolean> {
-    const user = await this.userRepository.create(signUpDto);
-    this.rmqService.ack(context);
-    return user ? true : false;
+    try {
+      const user = await this.userRepository.create(signUpDto);
+      await this.userRepository.save(user);
+      this.rmqService.ack(context);
+      return user ? true : false;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

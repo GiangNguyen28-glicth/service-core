@@ -17,12 +17,12 @@ export class User implements IUser {
   @Column()
   password: string;
 
-  @Column()
-  isDeleted: boolean;
+  @Column({ default: false })
+  is_deleted: boolean;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updated_at: Date;
 }

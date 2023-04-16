@@ -24,7 +24,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
   async validate(payload: IJwtPayload): Promise<User> {
     try {
       const user = await lastValueFrom(
-        this.clientUser.send('get_user_by_id', payload._id),
+        this.clientUser.send('get_user_by_id', payload.id),
       );
       if (!user) {
         throw new UnauthorizedException('jwt not accepted');

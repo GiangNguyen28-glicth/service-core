@@ -32,17 +32,17 @@ export class AuthService implements OnModuleDestroy {
     }
   }
 
-  async generateTokens(_id: string): Promise<JwtPayload> {
+  async generateTokens(id: number): Promise<JwtPayload> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
-        { _id },
+        { id },
         {
           secret: this.configService.get<string>('JWT_SECRET_AT'),
           expiresIn: `${this.configService.get<number>('JWT_EXPIRED_AT')}s`,
         },
       ),
       this.jwtService.signAsync(
-        { _id },
+        { id },
         {
           secret: this.configService.get<string>('JWT_SECRET_RT'),
           expiresIn: `${this.configService.get<number>('JWT_EXPIRED_RT')}s`,
