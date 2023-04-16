@@ -7,6 +7,7 @@ async function bootstrap() {
   const rabbitService = app.get<RabbitService>(RabbitService);
   const options = rabbitService.getOptions(Service.ORDER);
   app.connectMicroservice(options);
+  console.log(options);
   app.startAllMicroservices();
   console.log(`Start service ${Service.ORDER}`);
 }

@@ -16,7 +16,6 @@ export function getAllConfigService(service_list) {
       }),
       inject: [ConfigService],
     };
-    console.log(config);
     config_list.push(config);
   }
   return config_list;

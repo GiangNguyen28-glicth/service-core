@@ -1,0 +1,6 @@
+export enum StateOrder {
+  CREATED = 'CREATED',
+  WAITING_CHECKOUT = 'WAITING_CHECKOUT',
+  SUCCESS = 'SUCCESS',
+  CANCEL = 'CANCEL',
+}

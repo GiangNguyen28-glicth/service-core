@@ -15,5 +15,5 @@ export class CreateProductDTO implements IProduct {
   @IsOptional()
   images: string[];
 
-  created_by: number;
+  created_by?: number;
 }

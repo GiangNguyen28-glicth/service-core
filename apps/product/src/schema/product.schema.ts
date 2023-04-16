@@ -2,6 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IProduct } from '../interfaces/product.interfaces';
 import { Transform } from 'class-transformer';
+import { MongoID } from 'libs/shared';
+import { Categories } from './cate.schema';
 
 export type ProductModel = Model<Product>;
 
@@ -16,10 +18,10 @@ export class Product implements IProduct {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ required: true })
+  @Prop()
   sell_price: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: MongoID, ref: Categories.name })
   cate_id: string;
 
   @Prop()
