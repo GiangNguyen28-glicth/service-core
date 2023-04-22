@@ -3,6 +3,7 @@ import {
   ProductController,
   UserController,
   OrderController,
+  CartController,
 } from '../../controllers';
 
 export const controllers = [
@@ -10,4 +11,5 @@ export const controllers = [
   UserController,
   AuthController,
   OrderController,
+  CartController,
 ];

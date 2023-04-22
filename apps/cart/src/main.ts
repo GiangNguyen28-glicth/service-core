@@ -6,6 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(CartModule);
   const rabbitService = app.get<RabbitService>(RabbitService);
   const options = rabbitService.getOptions(Service.CART);
+  console.log(options);
   app.connectMicroservice(options);
   app.startAllMicroservices();
   console.log(`Start service ${Service.CART}`);

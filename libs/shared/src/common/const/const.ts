@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { SortOrder } from 'mongoose';
 
 export enum Language {
   VN = 'vi',
@@ -22,3 +23,4 @@ export enum Service {
 }
 
 export const MongoID = mongoose.Schema.Types.ObjectId;
+export type SortQuery = { [key: string]: SortOrder };

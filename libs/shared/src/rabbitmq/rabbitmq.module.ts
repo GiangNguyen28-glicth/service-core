@@ -1,11 +1,6 @@
-import { DynamicModule, Global, Logger, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import {
-  ClientOptions,
-  ClientProxyFactory,
-  ClientsModule,
-  Transport,
-} from '@nestjs/microservices';
+import { DynamicModule, Global, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ClientsModule } from '@nestjs/microservices';
 import { Client } from '../common/const/const';
 import {
   IClientDynamicModule,
