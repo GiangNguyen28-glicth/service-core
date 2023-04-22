@@ -1,5 +1,5 @@
 FROM node:alpine AS development
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -8,5 +8,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build auth
+
+COPY --from=development /app/dist ./dist
 
 CMD ["node", "dist/apps/auth/main"]

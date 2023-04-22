@@ -1,3 +1,4 @@
+version: '3'
 services:
   api-gateway:
     build:
@@ -14,6 +15,8 @@ services:
       - '2821:2821'
     depends_on:
       - rabbitmq
+      - mongodb
+      - cache
   product:
     build:
       context: .
@@ -25,6 +28,22 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+      - cache
+    volumes:
+      - .:/app
+      - /app/node_modules
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - cache
     volumes:
       - .:/app
       - /app/node_modules
@@ -35,7 +54,7 @@ services:
       target: development
     command: npm run start:dev user
     env_file:
-      - ./apps/product/.env
+      - ./apps/user/.env
     depends_on:
       - mysqldb
       - rabbitmq
@@ -47,23 +66,27 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
   mongodb:
     image: mongo
-    restart: always
     ports:
       - '27018:27017'
     volumes:
       - mongodata:/data/db
+    logging:
+      driver: none
   mongo-express:
     image: mongo-express
-    restart: always
     ports:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://mongodb:27017/
+    logging:
+      driver: none
   mysqldb:
     image: mysql:8.0.1
-    restart: always
     ports:
       - 3306:3306
     environment:
@@ -71,9 +94,10 @@ services:
       - MYSQL_DATABASE=microservices
     volumes:
       - mysqldata:/var/lib/mysql
+    logging:
+      driver: none
   phpadmin:
     image: phpmyadmin/phpmyadmin
-    restart: always
     links:
       - mysqldb
     ports:
@@ -85,7 +109,21 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     depends_on:
       - mysqldb
+    logging:
+      driver: none
+  cache:
+    image: redis:6.2-alpine
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+    logging:
+      driver: none
 volumes:
   mongodata:
     driver: local
   mysqldata:
+    driver: local
+  cache:
+    driver: local

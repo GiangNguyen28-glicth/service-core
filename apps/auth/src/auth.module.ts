@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
       envFilePath: './apps/auth/.env',
     }),
     RabbitModule.register({ name: Service.AUTH }),
-    RedisModule,
+    // RedisModule,
     // MongoDBModule,
   ],
   controllers: [AuthController],

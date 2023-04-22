@@ -14,4 +14,9 @@ export class ApiGateWayController {
   pingServiceAuth() {
     return this.apiGateWayService.pingServiceAuth();
   }
+
+  @Get('/hello')
+  getHello() {
+    return 'Hello';
+  }
 }

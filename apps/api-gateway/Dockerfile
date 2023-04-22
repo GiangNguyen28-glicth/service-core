@@ -9,4 +9,6 @@ COPY . .
 
 RUN npm run build api-gateway
 
+COPY --from=development /app/dist ./dist
+
 CMD ["node", "dist/apps/api-gateway/main"]

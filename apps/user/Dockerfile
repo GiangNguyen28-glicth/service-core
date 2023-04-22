@@ -9,4 +9,6 @@ COPY . .
 
 RUN npm run build user
 
+COPY --from=development /app/dist ./dist
+
 CMD ["node", "dist/apps/user/main"]
