@@ -4,7 +4,7 @@ import { SortQuery } from '../common';
 
 export class FilterBuilder<T> {
   queryFilter: any = {
-    $and: [{ isDeleted: false }],
+    $and: [{ is_deleted: false }],
   };
 
   querySort: SortQuery = {};

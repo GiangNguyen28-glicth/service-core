@@ -1,0 +1,44 @@
+  product:
+    build:
+      context: .
+      dockerfile: ./apps/product/Dockerfile
+      target: development
+    command: npm run start:dev product
+    env_file:
+      - ./apps/product/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - cache
+    volumes:
+      - .:/app
+      - /app/node_modules
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - cache
+    volumes:
+      - .:/app
+      - /app/node_modules
+  user:
+    build:
+      context: .
+      dockerfile: ./apps/user/Dockerfile
+      target: development
+    command: npm run start:dev user
+    env_file:
+      - ./apps/user/.env
+    depends_on:
+      - mysqldb
+      - rabbitmq
+    volumes:
+      - .:/app
+      - /app/node_modules

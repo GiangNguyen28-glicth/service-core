@@ -13,15 +13,6 @@ import { getAuthClient } from '../utils/utils';
           configService,
           Client.TYPE_ORM,
         );
-        console.log({
-          type: configService.get<string>('TYPE_SQL') as any,
-          host: authentication.host,
-          username: authentication.username,
-          password: authentication.password,
-          synchronize: true,
-          autoLoadEntities: true,
-          database: configService.get<string>('DATABASE') as any,
-        });
         return {
           type: configService.get<string>('TYPE_SQL') as any,
           host: authentication.host,
