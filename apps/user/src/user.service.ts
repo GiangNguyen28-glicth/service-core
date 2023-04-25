@@ -8,10 +8,11 @@ import {
 } from '@nestjs/common';
 import { ClientRMQ, RmqContext, RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RabbitService, Service } from 'libs/shared';
+import { IResult, RabbitService, Service } from 'libs/shared';
 import { SignUpDTO } from './dto/user.dto';
 import { User } from './entities/user.entities';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
+import { FilterUserDTO } from './dto';
 
 @Injectable()
 export class UserService implements OnModuleDestroy, OnModuleInit {
@@ -49,11 +50,11 @@ export class UserService implements OnModuleDestroy, OnModuleInit {
 
   async signIn(signUp: SignUpDTO, context: RmqContext): Promise<User> {
     const user = await this.userRepository.findOne({
-      where: { username: signUp.username },
+      where: { username: signUp.username, password: signUp.password },
     });
     this.rmqService.ack(context);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new RpcException(new NotFoundException('User not found'));
     }
     return user;
   }
@@ -67,5 +68,16 @@ export class UserService implements OnModuleDestroy, OnModuleInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async findAll(filter: FilterUserDTO): Promise<IResult<User>> {
+    const [results, totalCount] = await Promise.all([
+      this.userRepository.find({ where: { id: In(filter.ids) } }),
+      this.userRepository.count(),
+    ]);
+    return {
+      results,
+      totalCount,
+    };
   }
 }

@@ -9,6 +9,8 @@ COPY . .
 
 RUN npm run build product
 
+FROM node:alpine
+
 COPY --from=development /app/dist ./dist
 
 CMD ["node", "dist/apps/product/main"]

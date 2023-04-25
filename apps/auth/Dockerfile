@@ -9,6 +9,8 @@ COPY . .
 
 RUN npm run build auth
 
+FROM node:alpine 
+
 COPY --from=development /app/dist ./dist
 
 CMD ["node", "dist/apps/auth/main"]

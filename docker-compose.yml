@@ -1,0 +1,129 @@
+version: '3'
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./apps/api-gateway/Dockerfile
+      target: development
+    command: npm run start:dev api-gateway
+    env_file:
+      - ./apps/api-gateway/.env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '2821:2821'
+    depends_on:
+      - rabbitmq
+      - mongodb
+      - cache
+  product:
+    build:
+      context: .
+      dockerfile: ./apps/product/Dockerfile
+      target: development
+    command: npm run start:dev product
+    env_file:
+      - ./apps/product/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - cache
+    volumes:
+      - .:/app
+      - /app/node_modules
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - cache
+    volumes:
+      - .:/app
+      - /app/node_modules
+  user:
+    build:
+      context: .
+      dockerfile: ./apps/user/Dockerfile
+      target: development
+    command: npm run start:dev user
+    env_file:
+      - ./apps/user/.env
+    depends_on:
+      - mysqldb
+      - rabbitmq
+    volumes:
+      - .:/app
+      - /app/node_modules
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    ports:
+      - '5671:5671'
+      - '15671:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+  mongodb:
+    image: mongo
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongodata:/data/db
+    logging:
+      driver: none
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb:27017/
+    logging:
+      driver: none
+  mysqldb:
+    image: mysql:5.7.34
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=microservices
+    volumes:
+      - mysqldata:/var/lib/mysql
+    logging:
+      driver: none
+  phpadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysqldb
+    ports:
+      - 8089:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysqldb
+      - MYSQL_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=123456
+    depends_on:
+      - mysqldb
+    logging:
+      driver: none
+  cache:
+    image: redis:6.2-alpine
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+    logging:
+      driver: none
+volumes:
+  mongodata:
+    driver: local
+  mysqldata:
+    driver: local
+  cache:
+    driver: local

@@ -17,8 +17,8 @@ import { CateController } from './controller/cate.controller';
     }),
     RabbitModule.register({ name: Service.PRODUCT }),
     MongoDBModule,
-    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
     MongooseModule.forFeature([
+      { name: Product.name, schema: ProductSchema },
       { name: Categories.name, schema: CategorySchema },
     ]),
   ],

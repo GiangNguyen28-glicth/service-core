@@ -19,7 +19,7 @@ import { User } from './entities/user.entities';
     TypeOrmModule.forFeature([User]),
     TypeOrmSQLModule,
     RabbitModule.register({ name: Service.USER }),
-    // RedisModule,
+    RedisModule,
   ],
   controllers: [UserController],
   providers: [UserService],

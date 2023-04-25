@@ -10,10 +10,15 @@ import { delay, of } from 'rxjs';
 import { SignUpDTO } from './dto/user.dto';
 import { User } from './entities/user.entities';
 import { UserService } from './user.service';
+import { IResult, RabbitService } from 'libs/shared';
+import { FilterUserDTO } from './dto';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly rabbitService: RabbitService,
+  ) {}
 
   @EventPattern('sign_up')
   signUp(
@@ -36,6 +41,15 @@ export class UserController {
   ): Promise<User> {
     const user = await this.userService.signIn(signUp, ctx);
     return user;
+  }
+
+  @MessagePattern('findAll')
+  async findAll(
+    @Payload() filter: FilterUserDTO,
+    @Ctx() ctx: RmqContext,
+  ): Promise<IResult<User>> {
+    this.rabbitService.ack(ctx);
+    return await this.userService.findAll(filter);
   }
 
   @MessagePattern({ cmd: 'ping' })
