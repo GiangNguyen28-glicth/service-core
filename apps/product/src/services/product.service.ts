@@ -3,8 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductModel } from '../schema/product.schema';
 import { CreateProductDTO } from '../dto/product.dto';
 import { User } from 'apps/user';
-import { RabbitService } from 'libs/shared';
+import { FilterBuilder, IResult, RabbitService } from 'libs/shared';
 import { RmqContext } from '@nestjs/microservices';
+import { FilterProductDTO } from '../dto';
 
 @Injectable()
 export class ProductService {
@@ -21,5 +22,25 @@ export class ProductService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async findAll(filter: FilterProductDTO): Promise<IResult<Product>> {
+    const query = new FilterBuilder<Product>()
+      .setFilterItem(
+        '_id',
+        {
+          $in: filter.ids,
+        },
+        filter.ids,
+      )
+      .buildQuery();
+    const [results, totalCount] = await Promise.all([
+      this.productModel.find(query[0]),
+      this.productModel.countDocuments(),
+    ]);
+    return {
+      results,
+      totalCount,
+    };
   }
 }

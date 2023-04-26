@@ -61,6 +61,21 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+  cart:
+    build:
+      context: .
+      dockerfile: ./apps/cart/Dockerfile
+      target: development
+    command: npm run start:dev cart
+    env_file:
+      - ./apps/cart/.env
+    depends_on:
+      - mysqldb
+      - rabbitmq
+      - mongodb
+    volumes:
+      - .:/app
+      - /app/node_modules
   rabbitmq:
     image: rabbitmq:3.11-management
     ports:

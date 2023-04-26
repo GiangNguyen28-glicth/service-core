@@ -3,6 +3,7 @@ import { Client, Language } from '../common/const/const';
 import { IAuthenticationClient } from '../common/interfaces/common.interfaces';
 import { NotFoundException } from '@nestjs/common';
 import slugify from 'slugify';
+import { RpcException } from '@nestjs/microservices';
 
 export function getAuthClient(
   configService: ConfigService,
@@ -22,7 +23,7 @@ export function throwIfNotExists<T>(
   message: string,
 ) {
   if (!model || model?.is_deleted) {
-    throw new NotFoundException(`${message}`);
+    throw new RpcException(new NotFoundException(`${message}`));
   }
 }
 

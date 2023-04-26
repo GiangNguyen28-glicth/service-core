@@ -2,11 +2,12 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ICart, ICartItem } from '../interfaces/cart.interface';
 import { Transform } from 'class-transformer';
 import { Model } from 'mongoose';
+import { Product } from 'apps/product';
 
 @Schema()
 export class CartItem implements ICartItem {
-  @Prop({ required: true })
-  product_id: string;
+  @Prop({ required: true, type: String })
+  product_id: string | Product;
 
   @Prop({ required: true })
   quantity: number;

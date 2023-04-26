@@ -33,6 +33,7 @@ export class RabbitService {
         queue: this.configService.get<string>(`RABBIT_MQ_${queue}_QUEUE`),
         noAck,
         persistent: true,
+        // prefetchCount: 5,
       },
     };
   }
